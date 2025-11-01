@@ -3,11 +3,11 @@
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="producerDashboard()">
 <h1 class="text-2xl font-bold mb-6">Dashboard do Produtor</h1>
-<div class="border-b border-gray-200 mb-6">
-<nav class="-mb-px flex space-x-8">
-<button @click="tab='history'" :class="tab=='history'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que já fiz</button>
-<button @click="tab='publish'" :class="tab=='publish'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que posso fazer</button>
-<button @click="tab='map'" :class="tab=='map'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que está acontecendo</button>
+<div class="mb-6">
+<nav class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
+<button @click="tab='history'" :class="tab=='history'?'bg-white text-gray-900 shadow':'text-gray-600 hover:text-gray-900'" class="flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all">O que já fiz</button>
+<button @click="tab='publish'" :class="tab=='publish'?'bg-white text-gray-900 shadow':'text-gray-600 hover:text-gray-900'" class="flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all">O que posso fazer</button>
+<button @click="tab='map'" :class="tab=='map'?'bg-white text-gray-900 shadow':'text-gray-600 hover:text-gray-900'" class="flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all">O que está acontecendo</button>
 </nav>
 </div>
 <div x-show="tab=='history'" x-cloak>
@@ -32,18 +32,142 @@
 </div>
 </div>
 <div x-show="tab=='publish'" x-cloak>
-<div class="bg-white rounded-lg shadow p-6 mb-6">
-<h2 class="text-lg font-semibold mb-4">Publicar Material</h2>
-<form class="space-y-4">
-<div><label class="block text-sm font-medium">Nome</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 border p-2"></div>
-<div><label class="block text-sm font-medium">Categoria</label><select class="mt-1 block w-full rounded-md border-gray-300 border p-2"><option>Plástico</option><option>Vidro</option><option>Papel</option><option>Metal</option><option>Eletrônicos</option></select></div>
-<div><label class="block text-sm font-medium">Descrição</label><textarea class="mt-1 block w-full rounded-md border-gray-300 border p-2"></textarea></div>
-<button type="button" class="w-full px-4 py-2 bg-green-600 text-white rounded-md">Publicar</button>
+<!-- Publicar Novo Resíduo Section -->
+<div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+<div>
+<h2 class="text-lg font-semibold text-gray-900">Publicar Novo Resíduo</h2>
+<p class="text-sm text-gray-600 mt-1">Cadastre um material para coleta e aguarde aprovação da curadoria</p>
+</div>
+<button @click="showForm = !showForm" type="button" class="inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap">
+<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+</svg>
+Adicionar Novo Material
+</button>
+</div>
+<!-- Form (shown when showForm is true) -->
+<form x-show="showForm" @submit.prevent="submitMaterial" class="space-y-4 pt-4 border-t border-gray-200">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Nome do Resíduo</label>
+<input x-model="formData.name" type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+<select x-model="formData.category" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+<option value="">Selecione uma categoria</option>
+<option value="Plástico">Plástico</option>
+<option value="Vidro">Vidro</option>
+<option value="Papel">Papel</option>
+<option value="Metal">Metal</option>
+<option value="Eletrônicos">Eletrônicos</option>
+<option value="Orgânico">Orgânico</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+<textarea x-model="formData.description" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Localização</label>
+<input x-model="formData.location" type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+</div>
+<div class="flex gap-3 pt-2">
+<button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+Publicar
+</button>
+<button @click="showForm = false; resetForm()" type="button" class="px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+Cancelar
+</button>
+</div>
 </form>
 </div>
-<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Materiais Publicados</h2></div>
-<div class="p-6"><p class="font-semibold">Eletrônicos Antigos</p><span class="inline-block px-3 py-1 bg-yellow-50 text-yellow-800 border-2 border-yellow-600 rounded text-xs mt-2">Aguardando</span></div>
-<div class="p-6 border-t"><p class="font-semibold">Vidros Diversos</p><span class="inline-block px-3 py-1 bg-green-600 text-white rounded text-xs mt-2">Aprovado</span></div>
+
+<!-- Materiais Publicados Section -->
+<div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+<div class="mb-6">
+<h2 class="text-lg font-semibold text-gray-900">Materiais Publicados</h2>
+<p class="text-sm text-gray-600 mt-1">Acompanhe o status dos seus materiais</p>
+</div>
+<div class="space-y-4">
+<template x-for="material in publishedItems" :key="material.id">
+<div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between mb-3">
+<div class="flex-1">
+<h3 class="font-semibold text-gray-900" x-text="material.name"></h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2 py-1 text-xs font-medium border border-gray-300 rounded-md text-gray-700" x-text="material.category"></span>
+<span x-show="material.status === 'pending'" class="inline-flex items-center px-2 py-1 text-xs font-medium border-2 border-yellow-600 text-yellow-600 rounded-md">
+<svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+</svg>
+Aguardando curadoria
+</span>
+<span x-show="material.status === 'approved'" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-600 text-white rounded-md">
+<svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+Aprovado
+</span>
+<span x-show="material.status === 'rejected'" class="inline-flex items-center px-2 py-1 text-xs font-medium border-2 border-red-600 text-red-600 rounded-md">
+<svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+Reprovado
+</span>
+</div>
+</div>
+<span class="text-xs text-gray-500" x-text="material.date"></span>
+</div>
+<p class="text-sm text-gray-600 mb-2" x-text="material.description"></p>
+<div class="flex items-center text-sm text-gray-600">
+<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+</svg>
+<span x-text="material.location"></span>
+</div>
+<div x-show="material.feedback" class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+<p class="text-sm font-medium text-blue-900">Feedback do Curador:</p>
+<p class="text-sm text-blue-800 mt-1" x-text="material.feedback"></p>
+</div>
+</div>
+</template>
+</div>
+</div>
+
+<!-- Pontos de Coleta Próximos Section -->
+<div class="bg-white border border-gray-200 rounded-lg p-6">
+<div class="mb-6">
+<h2 class="text-lg font-semibold text-gray-900">Pontos de Coleta Próximos</h2>
+<p class="text-sm text-gray-600 mt-1">Locais onde você pode levar seus materiais</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<template x-for="point in collectionPoints" :key="point.id">
+<div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+<h3 class="font-semibold text-gray-900 mb-3" x-text="point.name"></h3>
+<div class="space-y-2 text-sm text-gray-600 mb-4">
+<div class="flex items-start">
+<svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+</svg>
+<span x-text="point.address"></span>
+</div>
+<div class="flex items-center">
+<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+<span x-text="point.hours"></span>
+</div>
+<span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-md" x-text="point.distance"></span>
+</div>
+<button type="button" class="w-full px-3 py-2 border border-gray-300 bg-white text-gray-700 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium">
+Ver no Mapa
+</button>
+</div>
+</template>
+</div>
 </div>
 </div>
 <div x-show="tab=='map'" x-cloak>
@@ -59,5 +183,104 @@
 </div>
 </div>
 </div>
-<script>function producerDashboard(){return{tab:'history'}}</script>
+<script>
+function producerDashboard() {
+  return {
+    tab: 'history',
+    showForm: false,
+    formData: {
+      name: '',
+      category: '',
+      description: '',
+      location: ''
+    },
+    publishedItems: [
+      {
+        id: '1',
+        name: 'Lote de plástico',
+        category: 'Plástico',
+        description: '10 garrafas PET limpas',
+        location: 'Minha localização',
+        status: 'approved',
+        date: '27/10/2025',
+        feedback: null
+      },
+      {
+        id: '2',
+        name: 'Papelão',
+        category: 'Papel',
+        description: 'Caixas desmontadas',
+        location: 'Minha localização',
+        status: 'pending',
+        date: '28/10/2025',
+        feedback: null
+      },
+      {
+        id: '3',
+        name: 'Eletrônicos Antigos',
+        category: 'Eletrônicos',
+        description: 'Celulares e tablets usados',
+        location: 'Centro da cidade',
+        status: 'rejected',
+        date: '26/10/2025',
+        feedback: 'Por favor, forneça mais detalhes sobre o estado dos aparelhos.'
+      }
+    ],
+    collectionPoints: [
+      {
+        id: '1',
+        name: 'EcoPonto Centro',
+        address: 'Rua das Flores, 123 - Centro',
+        hours: 'Seg-Sex: 8h-18h',
+        distance: '0.5 km'
+      },
+      {
+        id: '2',
+        name: 'Reciclagem Bairro Norte',
+        address: 'Av. Principal, 456 - Norte',
+        hours: 'Seg-Sáb: 7h-19h',
+        distance: '1.2 km'
+      },
+      {
+        id: '3',
+        name: 'Centro de Coleta Sul',
+        address: 'Rua do Parque, 789 - Sul',
+        hours: 'Seg-Sex: 9h-17h',
+        distance: '2.3 km'
+      }
+    ],
+    submitMaterial() {
+      // Create new material
+      const newMaterial = {
+        id: Date.now().toString(),
+        name: this.formData.name,
+        category: this.formData.category,
+        description: this.formData.description,
+        location: this.formData.location,
+        status: 'pending',
+        date: new Date().toLocaleDateString('pt-BR'),
+        feedback: null
+      };
+
+      // Add to beginning of list
+      this.publishedItems.unshift(newMaterial);
+
+      // Reset and close form
+      this.resetForm();
+      this.showForm = false;
+
+      // Show success message (basic alert for now)
+      alert('Material publicado com sucesso! Aguarde aprovação da curadoria.');
+    },
+    resetForm() {
+      this.formData = {
+        name: '',
+        category: '',
+        description: '',
+        location: ''
+      };
+    }
+  }
+}
+</script>
 {% endblock %}
