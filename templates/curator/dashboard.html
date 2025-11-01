@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Curador{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<h1 class="text-2xl font-bold mb-6">Dashboard do Curador</h1>
+<div class="grid grid-cols-3 gap-6 mb-6">
+<div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500"><p class="text-sm text-gray-600">Pendentes</p><p class="text-3xl font-bold">5</p></div>
+<div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600"><p class="text-sm text-gray-600">Aprovados Hoje</p><p class="text-3xl font-bold">12</p></div>
+<div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-600"><p class="text-sm text-gray-600">Reprovados Hoje</p><p class="text-3xl font-bold">3</p></div>
+</div>
+<div class="bg-white rounded-lg shadow mb-6"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Materiais Pendentes</h2></div>
+<div class="p-6 border-2 border-yellow-400 bg-yellow-50 m-4 rounded-lg">
+<h3 class="font-semibold">Eletrônicos Antigos</h3>
+<p class="text-sm text-gray-600 mt-1">Categoria: Eletrônicos</p>
+<p class="text-sm text-gray-600">Produtor: João Silva</p>
+<p class="text-sm text-gray-600 mt-2">Descrição: Computadores, teclados e monitores antigos</p>
+<div class="mt-4 flex space-x-2">
+<button class="px-4 py-2 bg-green-600 text-white rounded-md text-sm">Aprovar</button>
+<button class="px-4 py-2 bg-red-600 text-white rounded-md text-sm">Reprovar</button>
+</div>
+</div>
+<div class="p-6 border-2 border-yellow-400 bg-yellow-50 m-4 rounded-lg">
+<h3 class="font-semibold">Plásticos Recicláveis</h3>
+<p class="text-sm text-gray-600 mt-1">Categoria: Plástico</p>
+<p class="text-sm text-gray-600">Produtor: Maria Santos</p>
+<p class="text-sm text-gray-600 mt-2">Descrição: Garrafas PET e embalagens plásticas</p>
+<div class="mt-4 flex space-x-2">
+<button class="px-4 py-2 bg-green-600 text-white rounded-md text-sm">Aprovar</button>
+<button class="px-4 py-2 bg-red-600 text-white rounded-md text-sm">Reprovar</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Histórico de Revisões</h2></div>
+<div class="p-6"><p class="font-semibold">Vidros Diversos <span class="ml-2 px-2 py-1 bg-green-600 text-white rounded text-xs">Aprovado</span></p><p class="text-sm text-gray-600 mt-1">Revisado em 20/01/2024</p></div>
+<div class="p-6 border-t"><p class="font-semibold">Plásticos Misturados <span class="ml-2 px-2 py-1 bg-red-600 text-white rounded text-xs">Reprovado</span></p><p class="text-sm text-gray-600 mt-1">Revisado em 18/01/2024</p><p class="text-sm text-gray-600">Feedback: Separar por tipo</p></div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Produtor{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="producerDashboard()">
+<h1 class="text-2xl font-bold mb-6">Dashboard do Produtor</h1>
+<div class="border-b border-gray-200 mb-6">
+<nav class="-mb-px flex space-x-8">
+<button @click="tab='history'" :class="tab=='history'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que já fiz</button>
+<button @click="tab='publish'" :class="tab=='publish'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que posso fazer</button>
+<button @click="tab='map'" :class="tab=='map'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">O que está acontecendo</button>
+</nav>
+</div>
+<div x-show="tab=='history'" x-cloak>
+<div class="grid grid-cols-3 gap-6 mb-6">
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Pontos Totais</p><p class="text-3xl font-bold">370</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Coletas</p><p class="text-3xl font-bold">3</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Conquistas</p><p class="text-3xl font-bold">2</p></div>
+</div>
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+<h2 class="text-lg font-semibold mb-4">Conquistas</h2>
+<div class="grid grid-cols-4 gap-4">
+<div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center"><div class="text-4xl">🌱</div><p class="font-semibold text-sm mt-2">Primeira Coleta</p></div>
+<div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center"><div class="text-4xl">⚡</div><p class="font-semibold text-sm mt-2">Eco Warrior</p></div>
+<div class="bg-gray-50 border-2 border-gray-200 rounded-lg p-4 text-center"><div class="text-4xl">🌳</div><p class="font-semibold text-sm mt-2">Guardião Verde</p></div>
+<div class="bg-gray-50 border-2 border-gray-200 rounded-lg p-4 text-center"><div class="text-4xl">👑</div><p class="font-semibold text-sm mt-2">Mestre da Reciclagem</p></div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Histórico</h2></div>
+<div class="p-6"><p class="text-sm text-gray-600">Garrafas PET - Plástico - 50 unidades - 2024-01-15 <span class="text-yellow-600 font-bold">+150 pts</span></p></div>
+<div class="p-6 border-t"><p class="text-sm text-gray-600">Papelão - Papel - 20kg - 2024-01-10 <span class="text-yellow-600 font-bold">+100 pts</span></p></div>
+<div class="p-6 border-t"><p class="text-sm text-gray-600">Latas de Alumínio - Metal - 30 unidades - 2024-01-05 <span class="text-yellow-600 font-bold">+120 pts</span></p></div>
+</div>
+</div>
+<div x-show="tab=='publish'" x-cloak>
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+<h2 class="text-lg font-semibold mb-4">Publicar Material</h2>
+<form class="space-y-4">
+<div><label class="block text-sm font-medium">Nome</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 border p-2"></div>
+<div><label class="block text-sm font-medium">Categoria</label><select class="mt-1 block w-full rounded-md border-gray-300 border p-2"><option>Plástico</option><option>Vidro</option><option>Papel</option><option>Metal</option><option>Eletrônicos</option></select></div>
+<div><label class="block text-sm font-medium">Descrição</label><textarea class="mt-1 block w-full rounded-md border-gray-300 border p-2"></textarea></div>
+<button type="button" class="w-full px-4 py-2 bg-green-600 text-white rounded-md">Publicar</button>
+</form>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Materiais Publicados</h2></div>
+<div class="p-6"><p class="font-semibold">Eletrônicos Antigos</p><span class="inline-block px-3 py-1 bg-yellow-50 text-yellow-800 border-2 border-yellow-600 rounded text-xs mt-2">Aguardando</span></div>
+<div class="p-6 border-t"><p class="font-semibold">Vidros Diversos</p><span class="inline-block px-3 py-1 bg-green-600 text-white rounded text-xs mt-2">Aprovado</span></div>
+</div>
+</div>
+<div x-show="tab=='map'" x-cloak>
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+<h2 class="text-lg font-semibold mb-4">Mapa</h2>
+<div class="bg-gradient-to-br from-green-100 to-green-200 rounded-lg h-96 flex items-center justify-center">
+<p class="text-gray-600">Mapa Interativo (Em Desenvolvimento)</p>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Eventos de Hoje</h2></div>
+<div class="p-6"><p class="font-semibold">Coleta de Eletrônicos</p><p class="text-sm text-gray-600">Centro Comunitário - 14:00-18:00</p></div>
+<div class="p-6 border-t"><p class="font-semibold">Workshop de Compostagem</p><p class="text-sm text-gray-600">Praça Central - 09:00-12:00</p></div>
+</div>
+</div>
+</div>
+<script>function producerDashboard(){return{tab:'history'}}</script>
+{% endblock %}

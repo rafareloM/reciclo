@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Admin{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="adminDashboard()">
+<h1 class="text-2xl font-bold mb-6">Dashboard do Administrador</h1>
+<div class="border-b border-gray-200 mb-6">
+<nav class="-mb-px flex space-x-8">
+<button @click="tab='spaces'" :class="tab=='spaces'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">Espaços Físicos</button>
+<button @click="tab='calendar'" :class="tab=='calendar'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">Calendário</button>
+<button @click="tab='users'" :class="tab=='users'?'border-green-500 text-green-600':'border-transparent text-gray-500'" class="py-4 px-1 border-b-2 font-medium">Usuários</button>
+</nav>
+</div>
+<div x-show="tab=='spaces'" x-cloak>
+<div class="grid grid-cols-3 gap-6 mb-6">
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Total de Espaços</p><p class="text-3xl font-bold">12</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Disponíveis</p><p class="text-3xl font-bold">8</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Capacidade Total</p><p class="text-3xl font-bold">450</p></div>
+</div>
+<div class="mb-4"><button class="px-4 py-2 bg-green-600 text-white rounded-md">+ Novo Espaço</button></div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Espaços</h2></div>
+<div class="p-6"><div class="flex justify-between items-center"><div><p class="font-semibold">Centro de Reciclagem Norte</p><p class="text-sm text-gray-600">Rua das Flores, 123 - Cap: 50 pessoas</p><span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs mt-1">Coleta</span></div><button class="px-3 py-1 border border-gray-300 rounded text-sm">Editar</button></div></div>
+<div class="p-6 border-t"><div class="flex justify-between items-center"><div><p class="font-semibold">Sala de Workshops</p><p class="text-sm text-gray-600">Av. Principal, 456 - Cap: 30 pessoas</p><span class="inline-block px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs mt-1">Curso</span></div><button class="px-3 py-1 border border-gray-300 rounded text-sm">Editar</button></div></div>
+<div class="p-6 border-t"><div class="flex justify-between items-center"><div><p class="font-semibold">Auditório Principal</p><p class="text-sm text-gray-600">Praça Central, 789 - Cap: 100 pessoas</p><span class="inline-block px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs mt-1">Evento</span></div><button class="px-3 py-1 border border-gray-300 rounded text-sm">Editar</button></div></div>
+</div>
+</div>
+<div x-show="tab=='calendar'" x-cloak>
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+<h2 class="text-lg font-semibold mb-4">Calendário de Eventos</h2>
+<div class="bg-gray-50 rounded-lg p-8 text-center"><p class="text-gray-600">Visualização de Calendário (Em Desenvolvimento)</p></div>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Próximos Eventos</h2></div>
+<div class="p-6"><p class="font-semibold">Coleta de Eletrônicos</p><p class="text-sm text-gray-600">20/02/2024 - 14:00 às 18:00</p><p class="text-sm text-gray-600">Local: Centro de Reciclagem Norte</p></div>
+<div class="p-6 border-t"><p class="font-semibold">Workshop de Compostagem</p><p class="text-sm text-gray-600">22/02/2024 - 09:00 às 12:00</p><p class="text-sm text-gray-600">Local: Sala de Workshops</p></div>
+</div>
+</div>
+<div x-show="tab=='users'" x-cloak>
+<div class="grid grid-cols-4 gap-6 mb-6">
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Total</p><p class="text-3xl font-bold">156</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Ativos</p><p class="text-3xl font-bold">145</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Pendentes</p><p class="text-3xl font-bold">8</p></div>
+<div class="bg-white rounded-lg shadow p-6"><p class="text-sm text-gray-600">Curadores</p><p class="text-3xl font-bold">5</p></div>
+</div>
+<div class="bg-white rounded-lg shadow"><div class="p-6 border-b"><h2 class="text-lg font-semibold">Usuários Pendentes de Aprovação</h2></div>
+<div class="p-6"><div class="flex justify-between items-center"><div><p class="font-semibold">Carlos Oliveira</p><p class="text-sm text-gray-600">carlos@email.com</p><span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs mt-1">Produtor</span></div><div class="flex space-x-2"><button class="px-3 py-1 bg-green-600 text-white rounded text-sm">Aprovar</button><button class="px-3 py-1 bg-red-600 text-white rounded text-sm">Rejeitar</button></div></div></div>
+<div class="p-6 border-t"><div class="flex justify-between items-center"><div><p class="font-semibold">Ana Costa</p><p class="text-sm text-gray-600">ana@email.com</p><span class="inline-block px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs mt-1">Curador</span></div><div class="flex space-x-2"><button class="px-3 py-1 bg-green-600 text-white rounded text-sm">Aprovar</button><button class="px-3 py-1 bg-red-600 text-white rounded text-sm">Rejeitar</button></div></div></div>
+</div>
+</div>
+</div>
+<script>function adminDashboard(){return{tab:'spaces'}}</script>
+{% endblock %}
