@@ -86,7 +86,6 @@ reciclo/
 ├── static/                        # Static files (CSS, JS, images)
 ├── media/                         # User-uploaded files
 ├── reciclo/                       # Django project configuration
-├── react-prototype/               # UI/UX reference (Figma design)
 └── manage.py                      # Django management script
 ```
 
@@ -113,7 +112,7 @@ reciclo/
 - **Backend**: Django 5.2 (Python)
 - **Frontend**: HTML templates with Tailwind CSS
 - **Interactivity**: Alpine.js for dynamic components
-- **Database**: SQLite (development) / PostgreSQL (recommended for production)
+- **Database**: SQLite - Will use mySQL afterwards.
 - **Authentication**: Django built-in auth with custom user model
 
 ## 🔧 Development Commands
@@ -180,22 +179,14 @@ Access is enforced through:
 - Middleware: `RoleBasedAccessMiddleware`
 - User status check: Only `ativo` (active) users can login
 
-## 🎨 UI/UX Reference
+## 🎨 Design System
 
-The `react-prototype/` directory contains a Figma-generated React prototype used as a design reference. The Django implementation matches this design using:
+The application uses a consistent design system with:
 
 - **Tailwind CSS** for styling
 - **Alpine.js** for interactivity
 - **Green sustainability theme** (#16a34a)
 - **Responsive design** principles
-
-To view the React prototype:
-```bash
-cd react-prototype
-npm install
-npm run dev
-# Open http://localhost:3000
-```
 
 ## 📝 Configuration
 
@@ -218,7 +209,9 @@ MEDIA_URL = '/media/'
 
 ## 🧪 Testing
 
-Run tests for all apps:
+### Running Tests
+
+Run all tests across the entire project:
 ```bash
 python manage.py test
 ```
@@ -226,25 +219,75 @@ python manage.py test
 Run tests for a specific app:
 ```bash
 python manage.py test apps.producer
+python manage.py test apps.curator
+python manage.py test apps.accounts
 ```
 
-## 🚀 Production Deployment
+Run a specific test class:
+```bash
+python manage.py test apps.producer.tests.MaterialTests
+```
 
-For production deployment:
+Run tests with verbose output:
+```bash
+python manage.py test --verbosity=2
+```
 
-1. **Update settings.py**: Set DEBUG=False, configure ALLOWED_HOSTS, use environment variables
-2. **Use PostgreSQL** instead of SQLite
-3. **Collect static files**: `python manage.py collectstatic`
-4. **Use a production server** (Gunicorn, uWSGI)
+### Writing Tests
+
+Tests are organized in each app's `tests.py` file. Example test structure:
+
+```python
+from django.test import TestCase, Client
+from apps.accounts.models import CustomUser
+from apps.producer.models import Material
+
+class MaterialTests(TestCase):
+    def setUp(self):
+        # Create test user
+        self.user = CustomUser.objects.create_user(
+            username='testproducer@test.com',
+            email='testproducer@test.com',
+            password='testpass123',
+            tipo=3,
+            status='ativo'
+        )
+        self.client = Client()
+
+    def test_create_material(self):
+        # Test material creation
+        self.client.login(username='testproducer@test.com', password='testpass123')
+        response = self.client.post('/produtor/publicar/', {
+            'nome': 'Test Material',
+            'categoria': 'plastico',
+            'descricao': 'Test description'
+        })
+        self.assertEqual(Material.objects.count(), 1)
+```
+
+### Test Coverage
+
+To check test coverage, install coverage:
+```bash
+pip install coverage
+```
+
+Run tests with coverage:
+```bash
+coverage run --source='.' manage.py test
+coverage report
+coverage html  # Generates HTML report in htmlcov/
+```
 
 ## 📚 Additional Resources
 
 - **Django Documentation**: https://docs.djangoproject.com/
 - **Tailwind CSS**: https://tailwindcss.com/
 - **Alpine.js**: https://alpinejs.dev/
-- **Project Instructions**: See `CLAUDE.md` for detailed development guidelines
+- **Django Testing**: https://docs.djangoproject.com/en/5.2/topics/testing/
 
 ## 👥 Authors
+Rafael M. [@rafareloM](github.com/rafareloM)
 
 Built with Django and designed for sustainability.
 
